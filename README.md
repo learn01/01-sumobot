@@ -23,6 +23,8 @@ Rotate RIGHT for 0.4 seconds. Hold button to rotate right.
 
 Charge forward 64 inches. Hold button to charge forward.
 
+# License Information
+
 *The MIT License (MIT)*
 Copyright (c) 2016 01
 
