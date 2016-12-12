@@ -46,20 +46,20 @@ var page = `<!DOCTYPE html>
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-    
+
     <div id="app">
       <button id="up"    style="background-color:red; height:150px; width:150px;">UP</button>
       <button id="down"  style="background-color:blue; height:150px; width:150px;">DOWN</button>
       <button id="left"  style="background-color:green; height:150px; width:150px;">LEFT</button>
       <button id="right" style="background-color:yellow; height:150px; width:150px;">RIGHT</button>
     </div>
-     
+
      <script type="text/javascript">
         var upButton = document.getElementById('up');
         var downButton = document.getElementById('down');
         var leftButton = document.getElementById('left');
         var rightButton = document.getElementById('right');
-        
+
         var up = { "element": upButton, "func": goUp };
         var down = { "element": downButton, "func": goDown };
         var left = { "element": leftButton, "func": goLeft };
@@ -90,42 +90,134 @@ var page = `<!DOCTYPE html>
             oReq.send();
         }
 
-       
+        if ('ontouchstart' in document.documentElement) {
+            var interval;
 
-        var commands = [up, down, left, right];
+            upButton.addEventListener('touchstart', function() {
+                interval = setInterval(goUp(), 450);
+            });
 
-        commands.forEach(function(command) {
-            if ('ontouchstart' in document.documentElement) {
-                var interval;
+            upButton.addEventListener('touchend', function() {
+                clearInterval(interval);
+            });
+        } else {
+            var interval;
 
-                command['element'].addEventListener('touchstart', function() { 
-                    interval = setInterval(command.func, 450);
-                });
+            upButton.addEventListener('mousedown', function() {
+                interval = setInterval(goUp(), 450);
+            });
 
-                command['element'].addEventListener('touchend', function() {
-                    clearInterval(interval);
-                });
-            } else {
-                var interval;
+            upButton.addEventListener('mouseup', function() {
+                clearInterval(interval);
+            });
+        }
 
-                command['element'].addEventListener('mousedown', function() { 
-                    interval = setInterval(command.func, 450);
-                });
+        // down
+        if ('ontouchstart' in document.documentElement) {
+            var interval;
 
-                command['element'].addEventListener('mouseup', function() {
-                    clearInterval(interval);
-                });
-            }
-        });
+            downButton.addEventListener('touchstart', function() {
+                interval = setInterval(goDown(), 450);
+            });
 
-        
-        
+            downButton.addEventListener('touchend', function() {
+                clearInterval(interval);
+            });
+        } else {
+            var interval;
 
-        
+            downButton.addEventListener('mousedown', function() {
+                interval = setInterval(goDown(), 450);
+            });
 
-        
+            downButton.addEventListener('mouseup', function() {
+                clearInterval(interval);
+            });
+        }
+
+        // left
+
+        if ('ontouchstart' in document.documentElement) {
+            var interval;
+
+            leftButton.addEventListener('touchstart', function() {
+                interval = setInterval(goLeft(), 450);
+            });
+
+            leftButton.addEventListener('touchend', function() {
+                clearInterval(interval);
+            });
+        } else {
+            var interval;
+
+            leftButton.addEventListener('mousedown', function() {
+                interval = setInterval(goLeft(), 450);
+            });
+
+            leftButton.addEventListener('mouseup', function() {
+                clearInterval(interval);
+            });
+        }
+
+        // right
+
+        if ('ontouchstart' in document.documentElement) {
+            var interval;
+
+            rightButton.addEventListener('touchstart', function() {
+                interval = setInterval(goRight(), 450);
+            });
+
+            rightButton.addEventListener('touchend', function() {
+                clearInterval(interval);
+            });
+        } else {
+            var interval;
+
+            rightButton.addEventListener('mousedown', function() {
+                interval = setInterval(goRight(), 450);
+            });
+
+            rightButton.addEventListener('mouseup', function() {
+                clearInterval(interval);
+            });
+        }
+
+
+        // var commands = [up, down, left, right];
+        //
+        // commands.forEach(function(command) {
+        //     if ('ontouchstart' in document.documentElement) {
+        //         var interval;
+        //
+        //         command['element'].addEventListener('touchstart', function() {
+        //             interval = setInterval(command.func, 450);
+        //         });
+        //
+        //         command['element'].addEventListener('touchend', function() {
+        //             clearInterval(interval);
+        //         });
+        //     } else {
+        //         var interval;
+        //
+        //         command['element'].addEventListener('mousedown', function() {
+        //             interval = setInterval(command.func, 450);
+        //         });
+        //
+        //         command['element'].addEventListener('mouseup', function() {
+        //             clearInterval(interval);
+        //         });
+        //     }
+        // });
+
+
+
+
+
+
+
     </script>
-    
+
   </body>
 </html>`;
 
@@ -146,7 +238,7 @@ board.on("ready", function() {
   var length = 400;
   var speed = 255;
 
-  function up(mA, mB) {
+  function down(mA, mB) {
     mA.forward(speed);
     mB.forward(speed);
     board.wait(length, function() {
@@ -154,23 +246,23 @@ board.on("ready", function() {
       mB.stop();
     })
   };
-  function down(mA, mB) {
+  function up(mA, mB) {
     mA.reverse(speed);
     mB.reverse(speed);
-    board.wait(length, function() {
-      mA.stop();
-      mB.stop();
-    })
-  };
-  function left(mA, mB) {
-    mA.reverse(speed);
-    mB.forward(speed);
     board.wait(length, function() {
       mA.stop();
       mB.stop();
     })
   };
   function right(mA, mB) {
+    mA.reverse(speed);
+    mB.forward(speed);
+    board.wait(length, function() {
+      mA.stop();
+      mB.stop();
+    })
+  };
+  function left(mA, mB) {
     mA.forward(speed);
     mB.reverse(speed);
     board.wait(length, function() {
@@ -178,7 +270,7 @@ board.on("ready", function() {
       mB.stop();
     })
   };
-  
+
 //  function page(response) {
 //     response.writeHead(200, {"Content-Type":"text/html"});
 //     fs.readFile(__dirname + '/index.html', function(err, content) {
@@ -243,8 +335,5 @@ http.createServer(function (req, res) {
   // setTimeout(function() {
   //   console.log("waiting")
   // }, 2000)
-  // motorA.forward(255)  
+  // motorA.forward(255)
 });
-
-
-
