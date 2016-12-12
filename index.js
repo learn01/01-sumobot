@@ -10,22 +10,23 @@ var board = new five.Board({
 var http = require('http');
 var os = require('os');
 // Config
-var hostname = grabInterfaces().pop()
+// var hostname = grabInterfaces().pop()
+var hostname = "192.168.1.101";
 var port = 1337;
 var url = `http://${hostname}:${port}/`;
 
 // Helper Functions
 // Grabs all the interfaces
 // Imperative
-function grabInterfaces() {
-    var result = [];
-    var ifaces = os.networkInterfaces();
-    Object.keys(ifaces).map(function (key) { return ifaces[key]; })
-        .forEach(function (x) { return x.forEach(function (y) { return result.push(y); }); });
-    var tmp = result.filter(function (x) { return x.family === 'IPv4' && x.internal === false; })
-        .map(function (dev) { return dev.address; });
-    return tmp;
-}
+// function grabInterfaces() {
+//     var result = [];
+//     var ifaces = os.networkInterfaces();
+//     Object.keys(ifaces).map(function (key) { return ifaces[key]; })
+//         .forEach(function (x) { return x.forEach(function (y) { return result.push(y); }); });
+//     var tmp = result.filter(function (x) { return x.family === 'IPv4' && x.internal === false; })
+//         .map(function (dev) { return dev.address; });
+//     return tmp;
+// }
 
 
 // Page
@@ -143,34 +144,35 @@ board.on("ready", function() {
   var motorB = new five.Motor(["b5", "b4", "b3"]);
 
   var length = 400;
+  var speed = 255;
 
   function up(mA, mB) {
-    mA.forward(100);
-    mB.forward(100);
+    mA.forward(speed);
+    mB.forward(speed);
     board.wait(length, function() {
       mA.stop();
       mB.stop();
     })
   };
   function down(mA, mB) {
-    mA.reverse(100);
-    mB.reverse(100);
+    mA.reverse(speed);
+    mB.reverse(speed);
     board.wait(length, function() {
       mA.stop();
       mB.stop();
     })
   };
   function left(mA, mB) {
-    mA.reverse(100);
-    mB.forward(100);
+    mA.reverse(speed);
+    mB.forward(speed);
     board.wait(length, function() {
       mA.stop();
       mB.stop();
     })
   };
   function right(mA, mB) {
-    mA.forward(100);
-    mB.reverse(100);
+    mA.forward(speed);
+    mB.reverse(speed);
     board.wait(length, function() {
       mA.stop();
       mB.stop();
